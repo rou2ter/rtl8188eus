@@ -755,6 +755,36 @@ static int checkIPMcAndReplace(_adapter *priv, struct sk_buff *skb, unsigned int
 }
 #endif
 
+struct elapaarp {
+    __be16 hw_type;
+    __be16 pa_type;
+    __u8 hw_len;
+    __u8 pa_len;
+    __be16 dam_aarp;
+    __u8 hw_src[ETH_ALEN];
+    __u8 pa_src_zero;
+    __be16 pa_src_net;
+    __u8 pa_src_node;
+    __u8 hw_dst[ETH_ALEN];
+    __u8 pa_dst_zero;
+    __be16 pa_dst_net;
+    __u8 pa_dst_node;
+};
+
+struct ddpehdr {
+    __u16 deh_len:10,
+          deh_hops:4,
+          deh_pad:2;
+    __be16 deh_sum;
+    __be16 deh_dnet;
+    __be16 deh_snet;
+    __u8 deh_dnode;
+    __u8 deh_snode;
+    __u8 deh_dport;
+    __u8 deh_sport;
+};
+#endif
+
 int nat25_db_handle(_adapter *priv, struct sk_buff *skb, int method)
 {
 	unsigned short protocol;
