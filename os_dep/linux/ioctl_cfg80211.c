@@ -12,6 +12,7 @@
  * more details.
  *
  *****************************************************************************/
+#include <linux/string.h>
 #define  _IOCTL_CFG80211_C_
 
 #include <drv_types.h>
@@ -1663,7 +1664,7 @@ exit:
 }
 
 static int cfg80211_rtw_add_key(struct wiphy *wiphy
-#if 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
 	, struct wireless_dev *wdev
 #else
 	, struct net_device *ndev
@@ -1677,7 +1678,7 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy
 #endif
 	, const u8 *mac_addr, struct key_params *params)
 {
-#if 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
 	struct net_device *ndev = wdev->netdev;
 #endif
 	char *alg_name;
