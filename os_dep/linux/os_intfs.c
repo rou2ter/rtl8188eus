@@ -12,6 +12,7 @@
  * more details.
  *
  *****************************************************************************/
+#include <linux/string.h>
 #define _OS_INTFS_C_
 
 #include <drv_types.h>
