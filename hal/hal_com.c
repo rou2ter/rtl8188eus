@@ -12,7 +12,6 @@
  * more details.
  *
  *****************************************************************************/
-#include <string.h>
 #define _HAL_COM_C_
 
 #include <drv_types.h>
