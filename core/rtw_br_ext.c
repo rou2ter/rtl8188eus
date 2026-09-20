@@ -12,6 +12,38 @@
  * more details.
  *
  *****************************************************************************/
+#ifndef AARP_PA_ALEN
+#define AARP_PA_ALEN 4
+#endif
+
+struct elapaarp {
+    __be16 hw_type;
+    __be16 pa_type;
+    __u8 hw_len;
+    __u8 pa_len;
+    __be16 dam_aarp;
+    __u8 hw_src[ETH_ALEN];
+    __u8 pa_src_zero;
+    __be16 pa_src_net;
+    __u8 pa_src_node;
+    __u8 hw_dst[ETH_ALEN];
+    __u8 pa_dst_zero;
+    __be16 pa_dst_net;
+    __u8 pa_dst_node;
+};
+
+struct ddpehdr {
+    __u16 deh_len:10,
+          deh_hops:4,
+          deh_pad:2;
+    __be16 deh_sum;
+    __be16 deh_dnet;
+    __be16 deh_snet;
+    __u8 deh_dnode;
+    __u8 deh_snode;
+    __u8 deh_dport;
+    __u8 deh_sport;
+};
 #define _RTW_BR_EXT_C_
 
 #ifdef __KERNEL__
@@ -64,34 +96,7 @@
 #ifdef CONFIG_BR_EXT
 
 /* #define BR_EXT_DEBUG */
-struct elapaarp {
-    __be16 hw_type;
-    __be16 pa_type;
-    __u8 hw_len;
-    __u8 pa_len;
-    __be16 dam_aarp;
-    __u8 hw_src[ETH_ALEN];
-    __u8 pa_src_zero;
-    __be16 pa_src_net;
-    __u8 pa_src_node;
-    __u8 hw_dst[ETH_ALEN];
-    __u8 pa_dst_zero;
-    __be16 pa_dst_net;
-    __u8 pa_dst_node;
-};
 
-struct ddpehdr {
-    __u16 deh_len:10,
-          deh_hops:4,
-          deh_pad:2;
-    __be16 deh_sum;
-    __be16 deh_dnet;
-    __be16 deh_snet;
-    __u8 deh_dnode;
-    __u8 deh_snode;
-    __u8 deh_dport;
-    __u8 deh_sport;
-};
 #define NAT25_IPV4		01
 #define NAT25_IPV6		02
 #ifdef NET_IPX_KERNEL
