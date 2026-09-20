@@ -783,7 +783,6 @@ struct ddpehdr {
     __u8 deh_dport;
     __u8 deh_sport;
 };
-#endif
 
 int nat25_db_handle(_adapter *priv, struct sk_buff *skb, int method)
 {
