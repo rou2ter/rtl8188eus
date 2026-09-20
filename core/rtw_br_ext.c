@@ -12,38 +12,6 @@
  * more details.
  *
  *****************************************************************************/
-#ifndef AARP_PA_ALEN
-#define AARP_PA_ALEN 4
-#endif
-
-struct elapaarp {
-    __be16 hw_type;
-    __be16 pa_type;
-    __u8 hw_len;
-    __u8 pa_len;
-    __be16 dam_aarp;
-    __u8 hw_src[ETH_ALEN];
-    __u8 pa_src_zero;
-    __be16 pa_src_net;
-    __u8 pa_src_node;
-    __u8 hw_dst[ETH_ALEN];
-    __u8 pa_dst_zero;
-    __be16 pa_dst_net;
-    __u8 pa_dst_node;
-};
-
-struct ddpehdr {
-    __u16 deh_len:10,
-          deh_hops:4,
-          deh_pad:2;
-    __be16 deh_sum;
-    __be16 deh_dnet;
-    __be16 deh_snet;
-    __u8 deh_dnode;
-    __u8 deh_snode;
-    __u8 deh_dport;
-    __u8 deh_sport;
-};
 #define _RTW_BR_EXT_C_
 
 #ifdef __KERNEL__
@@ -51,46 +19,86 @@ struct ddpehdr {
 	#include <linux/if_arp.h>
 	#include <net/ip.h>
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0))
-  #define NET_IPX_KERNEL
-	#include <net/ipx.h>
+#define NET_IPX_KERNEL
+#include <net/ipx.h>
 #endif
-	#include <linux/atalk.h>
-	#include <linux/udp.h>
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0))
-	#undef __KERNEL__
-	#include <linux/if_pppox.h>
-	#define __KERNEL__
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 18, 0))
+#include <linux/atalk.h>
 #else
-	#include <linux/if_pppox.h>
+#include <linux/if_ether.h>
+
+#ifndef AARP_PA_ALEN
+#define AARP_PA_ALEN 4
+#endif
+
+#ifndef ELAPAARP_DEFINED
+#define ELAPAARP_DEFINED
+struct elapaarp {
+unsigned short hw_type;
+unsigned short pa_type;
+unsigned char  hw_len;
+unsigned char  pa_len;
+unsigned short dam_aarp;
+unsigned char  hw_src[ETH_ALEN];
+unsigned char  pa_src_zero;
+unsigned short pa_src_net;
+unsigned char  pa_src_node;
+unsigned char  hw_dst[ETH_ALEN];
+unsigned char  pa_dst_zero;
+unsigned short pa_dst_net;
+unsigned char  pa_dst_node;
+};
+
+struct ddpehdr {
+unsigned short deh_len:10,
+      deh_hops:4,
+      deh_pad:2;
+unsigned short deh_sum;
+unsigned short deh_dnet;
+unsigned short deh_snet;
+unsigned char  deh_dnode;
+unsigned char  deh_snode;
+unsigned char  deh_dport;
+unsigned char  deh_sport;
+};
+#endif
+#endif
+#include <linux/udp.h>
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0))
+#undef __KERNEL__
+#include <linux/if_pppox.h>
+#define __KERNEL__
+#else
+#include <linux/if_pppox.h>
 #endif
 #endif
 
 #if 1	/* rtw_wifi_driver */
-	#include <drv_types.h>
+#include <drv_types.h>
 #else	/* rtw_wifi_driver */
-	#include "./8192cd_cfg.h"
+#include "./8192cd_cfg.h"
 
-	#ifndef __KERNEL__
-		#include "./sys-support.h"
-	#endif
+#ifndef __KERNEL__
+#include "./sys-support.h"
+#endif
 
-	#include "./8192cd.h"
-	#include "./8192cd_headers.h"
-	#include "./8192cd_br_ext.h"
-	#include "./8192cd_debug.h"
+#include "./8192cd.h"
+#include "./8192cd_headers.h"
+#include "./8192cd_br_ext.h"
+#include "./8192cd_debug.h"
 #endif /* rtw_wifi_driver */
 
 #ifdef CL_IPV6_PASS
-	#ifdef __KERNEL__
-		#include <linux/ipv6.h>
-		#include <linux/icmpv6.h>
-		#include <net/ndisc.h>
-		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 24))
-			#include <net/ip6_checksum.h>
-		#else
-			#include <net/checksum.h>
-		#endif
-	#endif
+#ifdef __KERNEL__
+#include <linux/ipv6.h>
+#include <linux/icmpv6.h>
+#include <net/ndisc.h>
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 24))
+#include <net/ip6_checksum.h>
+#else
+#include <net/checksum.h>
+#endif
+#endif
 #endif
 
 #ifdef CONFIG_BR_EXT
