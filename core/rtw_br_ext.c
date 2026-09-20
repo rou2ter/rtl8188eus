@@ -24,7 +24,7 @@
 #endif
 	#include <linux/atalk.h>
 	#include <linux/udp.h>
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 1, 0))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0))
 	#undef __KERNEL__
 	#include <linux/if_pppox.h>
 	#define __KERNEL__
