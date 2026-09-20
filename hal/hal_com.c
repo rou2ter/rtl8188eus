@@ -12,6 +12,7 @@
  * more details.
  *
  *****************************************************************************/
+#include <string.h>
 #define _HAL_COM_C_
 
 #include <drv_types.h>
@@ -10736,7 +10737,7 @@ ParseQualifiedString(
 		return _FALSE;
 
 	j = (*Start) - 2;
-	strncpy((char *)Out, (const char *)(In + i), j - i + 1);
+	strscpy((char *)Out, (const char *)(In + i), j - i + 1);
 
 	return _TRUE;
 }
